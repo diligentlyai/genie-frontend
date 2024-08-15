@@ -2,4 +2,7 @@
     import "../app.css";
   </script>
   
-  <slot />
+  <div class="bg-primary text-secondary h-screen">
+    <slot />
+  </div>
+  
