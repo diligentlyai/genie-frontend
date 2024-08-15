@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiligentlyAI Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>DiligentlyAI</h1>
+        <p class="subtitle">Lead generation focused on <strong>increasing quality</strong> over quantity.</p>
+
+        <form action="https://formsubmit.co/your-email@example.com" method="POST">
+
+            <div class="input-group">
+                <label for="email">Input your email</label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="tabs">
+                <button type="button" class="tab-link active" onclick="openTab(event, 'accounts')">Accounts</button>
+                <button type="button" class="tab-link" onclick="openTab(event, 'contacts')">Contacts</button>
+            </div>
+
+            <div id="accounts" class="tab-content">
+                <h2>Define your ICP Account</h2>
+                <div id="account-rows">
+                    <div class="feature-row">
+                        <input type="text" name="feature_name[]" placeholder="Feature Name">
+                        <input type="text" name="feature_description[]" placeholder="Feature Description">
+                        <select name="feature_type[]">
+                            <option value="constraint">Constraint</option>
+                            <option value="keyword">Keyword</option>
+                            <option value="true_false">True / False</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="add-feature">Add New Feature</button>
+            </div>
+
+            <div id="contacts" class="tab-content" style="display:none;">
+                <h2>Define your ICP Contact</h2>
+                <div id="contact-rows">
+                    <div class="feature-row">
+                        <input type="text" name="contact_feature_name[]" placeholder="Feature Name">
+                        <input type="text" name="contact_feature_description[]" placeholder="Feature Description">
+                        <select name="contact_feature_type[]">
+                            <option value="constraint">Constraint</option>
+                            <option value="keyword">Keyword</option>
+                            <option value="true_false">True / False</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="add-contact-feature">Add New Contact Feature</button>
+            </div>
+
+            <div class="input-group">
+                <label for="account_count">How many accounts do you need? (max 50 on preview plan)</label>
+                <input type="number" id="account_count" name="account_count" placeholder="250" max="50" required>
+            </div>
+
+            <div class="input-group">
+                <label for="account_list">Provide starting account list (optional)</label>
+                <input type="file" id="account_list" name="account_list">
+            </div>
+
+            <button type="submit" class="submit-btn">Find Accounts and Contacts!</button>
+            <button type="submit" class="submit-btn">Find Accounts!</button>
+
+            <p class="disclaimer">Because we get real-time updated information, we take a few days to get results. If you need more than 50 matching accounts just email ben@diligently.ai to get billing set up.</p>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
