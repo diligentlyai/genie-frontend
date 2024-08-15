@@ -1,11 +1,14 @@
 <script>
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
+	import Tabs from './tabs.svelte';
+	import Filepicker from './filepicker.svelte';
+	import { Button } from '$lib/components/ui/button';
 </script>
 
 <form class="p-5 mx-auto max-w-screen-md">
 	<section class=" pl-16 p-5 relative">
-        <div class="absolute top-6 left-4 w-8 aspect-square bg-secondary"></div>
+		<div class="absolute top-6 left-4 w-8 aspect-square bg-secondary"></div>
 		<h1 class="text-4xl font-bold">Diligently AI</h1>
 		<h3 class="mt-4">Lead generation focused on increasing quality over quantity.</h3>
 	</section>
@@ -21,5 +24,16 @@
 				<Input id="email" name="email" />
 			</div>
 		</div>
+	</section>
+	<section class="mt-5">
+		<Tabs />
+	</section>
+	<section>
+		Provide starting account list
+		<Filepicker />
+	</section>
+	<section class="ml-auto">
+		<Button>Find accounts and contacts</Button>
+		<Button>Find accounts</Button>
 	</section>
 </form>
