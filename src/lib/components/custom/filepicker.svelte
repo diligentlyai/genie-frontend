@@ -17,9 +17,9 @@
 	style="display: none;"
 />
 
-<div class="block min-h-16">
+<div class="block min-h-20">
 	<Button on:click={() => fileInput.click()}><slot /></Button>
 	{#if fileExists}
-		<div>{cleanedFileName}</div>
+		<div class="mt-2 overflow-ellipsis line-clamp-1 break-before-avoid">{cleanedFileName}</div>
 	{/if}
 </div>

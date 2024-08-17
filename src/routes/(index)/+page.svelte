@@ -30,7 +30,19 @@
 	</section>
 	<section class="space-y-2">
 		<h4>Provide starting account list</h4>
-		<Filepicker>Upload file</Filepicker>
+		<div class="flex align-baseline gap-5">
+			<div class="mt-6 w-32">
+				<Filepicker>Upload file</Filepicker>
+			</div>
+			<div>
+				<Label for="companyNameColumn">Company Name Column</Label>
+				<Input name="companyNameColumn" placeholder="companyName"/>
+			</div>
+			<div>
+				<Label for="websiteColumn">Website Column</Label>
+				<Input name="websiteColumn" placeholder="website"/>
+			</div>
+		</div>
 	</section>
 	<section class="block space-y-2">
 		<Button class="block ml-auto">Find accounts and contacts</Button>
