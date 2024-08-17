@@ -2,7 +2,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import Tabs from './tabs.svelte';
-	import Filepicker from './filepicker.svelte';
+	import Filepicker from '../../lib/components/custom/filepicker.svelte';
 	import { Button } from '$lib/components/ui/button';
 </script>
 
@@ -30,7 +30,7 @@
 	</section>
 	<section class="space-y-2">
 		<h4>Provide starting account list</h4>
-		<Filepicker />
+		<Filepicker>Upload file</Filepicker>
 	</section>
 	<section class="block space-y-2">
 		<Button class="block ml-auto">Find accounts and contacts</Button>
