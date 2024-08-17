@@ -39,10 +39,6 @@
 			<span class="ml-auto block w-fit"
 				>Because we get real time updated information, we take a few days to get results.</span
 			>
-			<span class="ml-auto block w-fit"
-				>If you need more than 50 matching accounts just email ben@diligently.ai to get billing set
-				up.</span
-			>
 		</p>
 	</section>
 </form>

@@ -37,7 +37,7 @@
 					}}>New</Button
 				>
 				<Label for="numAccounts" class="block"
-					>How many accounts do you need? (max 50 on a preview plan)</Label
+					>How many accounts do you need?</Label
 				>
 				<Input type="number" id="numAccounts" name="numAccounts" />
 				<Label for="accountQualificationProcess" class="block"
@@ -68,7 +68,7 @@
 					}}>New</Button
 				>
 				<Label for="numContacts" class="block"
-					>How many contacts do you need per account? (max 5)</Label
+					>How many contacts do you need per account?</Label
 				>
 				<Input type="number" id="numContacts" name="numContacts" />
 				<Label for="contactQualificationProcess" class="block"
