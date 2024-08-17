@@ -10,7 +10,7 @@
 	<section class=" pl-16 p-5 relative space-y-4">
 		<h1 class="text-4xl font-bold">Diligently AI</h1>
 		<h3>Lead generation focused on increasing quality over quantity.</h3>
-		<div class="absolute top-2 left-4 w-8 aspect-square bg-secondary"></div>
+		<img src="/favicon.png" class="absolute top-1 left-4 w-10 aspect-square" alt="logo" />
 	</section>
 	<section class="space-y-2">
 		<h4 class="text-2xl font-medium">Contact Details</h4>
