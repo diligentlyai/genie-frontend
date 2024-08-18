@@ -5,15 +5,17 @@
 	import Filepicker from '../../lib/components/custom/filepicker.svelte';
 	import { Button } from '$lib/components/ui/button';
 	let formElement: HTMLFormElement
+	let hiddenJsonInputValue: string;
 
-	function handleSubmit(e: SubmitEvent) {
-		e.preventDefault()
+	function handleSubmit() {
+		if (!formElement) return
 		const data: Record<string, string | Blob> = {}
 		const inputs = formElement.querySelectorAll('input')
 		for (let i = 0; i < inputs.length; i++) {
 			const input = inputs.item(i)
+			if (input.name == "json") continue
 			if (input.type == "file" && !!input.files?.[0]) {
-				data[input.name] = input.files[0]
+				// data[input.name] = input.files[0]
 			} else {
 				data[input.name] = input.value
 			}
@@ -28,18 +30,25 @@
 			const select = selects.item(i)
 			data[select.name] = select.value
 		}
-		console.log("Submitted form data:", data)
+		hiddenJsonInputValue = JSON.stringify(data)
 	}
 </script>
 
 <svelte:head><title>DiligentlyAI - Genie</title></svelte:head>
 
-<form class="p-5 mx-auto max-w-screen-md space-y-3" on:submit={handleSubmit} bind:this={formElement}>
-	<section class=" pl-16 p-5 relative space-y-4">
-		<h1 class="text-4xl font-bold">Diligently AI</h1>
-		<h3>Lead generation focused on increasing quality over quantity.</h3>
-		<img src="/favicon.png" class="absolute top-1 left-4 w-10 aspect-square" alt="logo" />
-	</section>
+<div class="p-5 mx-auto max-w-screen-md space-y-3">
+<section class=" pl-16 p-5 relative space-y-4">
+	<h1 class="text-4xl font-bold">Diligently AI</h1>
+	<h3>Lead generation focused on increasing quality over quantity.</h3>
+	<img src="/favicon.png" class="absolute top-1 left-4 w-10 aspect-square" alt="logo" />
+</section>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<form
+bind:this={formElement}
+on:submit={handleSubmit}
+	enctype="multipart/form-data" method="post" action="https://formsubmit.co/95bf24aaf0e026f44afd2d96613be9c0"
+>
+	<input name="json" id="json" bind:value={hiddenJsonInputValue} class="hidden" />	
 	<section class="space-y-2">
 		<h4 class="text-2xl font-medium">Contact Details</h4>
 		<div class="flex flex-row gap-5">
@@ -72,7 +81,9 @@
 			</div>
 		</div>
 	</section>
-	<section class="block space-y-2">
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+	<section class="block space-y-2" on:mouseenter={handleSubmit}>
 		<Button class="block ml-auto" type="submit">Find accounts and contacts</Button>
 		<p>
 			<span class="ml-auto block w-fit"
@@ -81,3 +92,4 @@
 		</p>
 	</section>
 </form>
+</div>
