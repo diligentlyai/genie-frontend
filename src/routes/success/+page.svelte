@@ -11,10 +11,10 @@
 <div class="px-16">
 	<h4 class="min-h-16 text-xl">
 		{#if name}
-			We've recieved your submission & payment, {name}!
+			We've received your submission & payment, {name}, thank you!
 		{/if}
 	</h4>
-	<p>We're looking forward to working with you.</p>
+	<p>We look forward to working with you.</p>
 	<p class="mt-4">
 		The tab containing your information is likely still open. Feel free to close it.
 	</p>
