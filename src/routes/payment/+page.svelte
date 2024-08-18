@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { account_price_id, publishableKey } from '$lib/keys';
+	import { account_price_id, contact_price_id, publishableKey } from '$lib/keys';
+	import type { RedirectToCheckoutClientOptions } from '@stripe/stripe-js';
 	import { loadStripe } from '@stripe/stripe-js';
 	import { onMount } from 'svelte';
 	let failure = false;
@@ -17,18 +18,24 @@
 	async function checkout() {
 		const params = new URLSearchParams(window.location.search);
 		const numAccounts = parseInt(params.get('numAccounts') ?? '0');
-		// const numContacts = parseInt(params.get('numContacts') ?? '0');
 		if (Number.isNaN(numAccounts) || numAccounts == 0) throw new Error('No items in cart');
-		console.log({ numAccounts, account_price_id });
+		const lineItems: RedirectToCheckoutClientOptions['lineItems'] = [{
+			price: account_price_id,
+			quantity: numAccounts
+		}];
+		if (params.get('includeContacts')) {
+			const numContacts = parseInt(params.get('numContacts') ?? '0');
+			if (Number.isNaN(numContacts) || numContacts == 0)
+				throw new Error("Requested to include contacts but didn't specify how many");
+			lineItems.push({
+				price: contact_price_id,
+				quantity: numContacts
+			});
+		}
 		const stripe = await loadStripe(publishableKey);
 		if (!stripe) throw new Error('Failed to load stripe');
 		const { error } = await stripe.redirectToCheckout({
-			lineItems: [
-				{
-					price: account_price_id,
-					quantity: numAccounts
-				}
-			],
+			lineItems,
 			mode: 'payment',
 			successUrl: `${window.location.origin}/success?name=${params.get('name')}`,
 			cancelUrl: `${window.location.origin}/close`

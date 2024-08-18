@@ -7,13 +7,23 @@
 	import { email_public_key, email_service, email_template } from '$lib/keys';
 
 	let formElement: HTMLFormElement;
-	let isSubmitting = false;
+	let isSubmittingAccounts = false;
+	let isSubmittingAccountsAndContacts = false;
+	$: isSubmitting = isSubmittingAccounts || isSubmittingAccountsAndContacts;
 
 	const reservedNames = ['file', 'json'];
 	const inputTagnames = ['input', 'textarea', 'select'];
 
 	function handleSubmit(includeContacts?: boolean) {
-		isSubmitting = true;
+		if (includeContacts == undefined) {
+			const num = formElement.querySelector<HTMLInputElement>('#numContacts');
+			includeContacts = parseInt(num?.value ?? '0') > 0;
+		}
+		if (includeContacts) {
+			isSubmittingAccountsAndContacts = true;
+		} else {
+			isSubmittingAccounts = true;
+		}
 		const data: Record<string, string> = {};
 		function pullValuesOutOfInputList(
 			list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -41,21 +51,20 @@
 		emailjs.send(email_service, email_template, templateParams).then(
 			(response) => {
 				const params = new URLSearchParams();
-				params.append('numContacts', data['numContacts']);
-				params.append('numAccounts', data['numAccounts']);
 				params.append('name', data['name']);
-				if (includeContacts == undefined) {
-					includeContacts = parseInt(data['numAccounts'] ?? '0') > 0;
-				}
+				params.append('numAccounts', data['numAccounts']);
 				if (includeContacts) {
+					params.append('numContacts', data['numContacts']);
 					params.append('includeContacts', 'true');
 				}
 				window.open(`/payment?${params.toString()}`, '_blank');
-				isSubmitting = false;
+				isSubmittingAccounts = false;
+				isSubmittingAccountsAndContacts = false;
 			},
 			(error) => {
 				console.error('Failed to send email...', error);
-				isSubmitting = false;
+				isSubmittingAccounts = false;
+				isSubmittingAccountsAndContacts = false;
 			}
 		);
 	}
@@ -110,7 +119,22 @@
 			disabled={isSubmitting}
 			on:click={() => handleSubmit(false)}
 		>
-			{#if isSubmitting}
+			{#if isSubmittingAccounts}
+				<span class="flex items-center justify-center gap-6">
+					Submitting
+					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
+				</span>
+			{:else}
+				Find accounts
+			{/if}
+		</Button>
+		<Button
+			class="block ml-auto min-w-56"
+			type="button"
+			disabled={isSubmitting}
+			on:click={() => handleSubmit(true)}
+		>
+			{#if isSubmittingAccountsAndContacts}
 				<span class="flex items-center justify-center gap-6">
 					Submitting
 					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />

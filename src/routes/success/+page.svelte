@@ -16,6 +16,6 @@
 	</h4>
 	<p>We look forward to working with you.</p>
 	<p class="mt-4">
-		The tab containing your information is likely still open. Feel free to close it.
+		The tab containing the information you submitted is likely still open. Feel free to close it.
 	</p>
 </div>
