@@ -10,8 +10,10 @@
 	let hiddenSubjectInputValue: string;
 	let hiddenAutoResponseInputValue: string;
 	const reservedNames = ['file', 'json'];
+	let isSubmitting = false;
 	function handleSubmit() {
 		if (!formElement) return;
+		isSubmitting = true;
 		const data: Record<string, string> = {};
 		const inputs = formElement.querySelectorAll('input');
 		for (let i = 0; i < inputs.length; i++) {
@@ -57,7 +59,7 @@
 	<input type="hidden" name="json" bind:value={hiddenJsonInputValue} />
 	<input type="hidden" name="_next" bind:value={hiddenRedirectInputValue} />
 	<input type="hidden" name="_subject" bind:value={hiddenSubjectInputValue} />
-	<input type="hidden" name="_autoresponse" bind:value={hiddenAutoResponseInputValue}/>
+	<input type="hidden" name="_autoresponse" bind:value={hiddenAutoResponseInputValue} />
 	<section class="space-y-2">
 		<h4 class="text-2xl font-medium">Contact Details</h4>
 		<div class="flex flex-row gap-5">
@@ -90,10 +92,17 @@
 			</div>
 		</div>
 	</section>
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-	<section class="block space-y-2" on:mouseenter={handleSubmit}>
-		<Button class="block ml-auto" type="submit">Find accounts and contacts</Button>
+	<section class="block space-y-2">
+		<Button class="block ml-auto min-w-64" type="submit" disabled={isSubmitting}>
+			{#if isSubmitting}
+			<span class="flex items-center justify-around">
+				Redirecting to payment...
+				<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
+			</span>
+			{:else}
+				Find accounts and contacts
+			{/if}
+		</Button>
 		<p>
 			<span class="ml-auto block w-fit"
 				>Because we get real time updated information, we take a few days to get results.</span
