@@ -11,23 +11,25 @@
 	let hiddenAutoResponseInputValue: string;
 	const reservedNames = ['file', 'json'];
 	let isSubmitting = false;
-	const inputTagnames = ['input', 'textarea', 'select']
+	const inputTagnames = ['input', 'textarea', 'select'];
 
 	function handleSubmit() {
 		if (!formElement) return;
 		isSubmitting = true;
 		const data: Record<string, string> = {};
-		function pullValuesOutOfInputList(list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+		function pullValuesOutOfInputList(
+			list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+		) {
 			for (let i = 0; i < list.length; i++) {
 				const input = list.item(i);
 				if (reservedNames.includes(input.name) || input.name.startsWith('_')) continue;
 				data[input.name] = input.value;
 			}
 		}
-		inputTagnames.forEach(tag => {
-			pullValuesOutOfInputList(formElement.querySelectorAll(tag))
+		inputTagnames.forEach((tag) => {
+			pullValuesOutOfInputList(formElement.querySelectorAll(tag));
 		});
-		
+
 		hiddenJsonInputValue = JSON.stringify(data);
 		hiddenSubjectInputValue = `New Genie Form Submission From ${data['name']}`;
 		const relevantParams = new URLSearchParams();
@@ -91,10 +93,10 @@
 	<section class="block space-y-2">
 		<Button class="block ml-auto min-w-64" type="submit" disabled={isSubmitting}>
 			{#if isSubmitting}
-			<span class="flex items-center justify-around">
-				Redirecting to payment...
-				<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
-			</span>
+				<span class="flex items-center justify-around">
+					Redirecting to payment...
+					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
+				</span>
 			{:else}
 				Find accounts and contacts
 			{/if}
