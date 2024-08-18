@@ -37,7 +37,7 @@
 		relevantParams.append('numContacts', data['numContacts']);
 		relevantParams.append('numAccounts', data['numAccounts']);
 		relevantParams.append('email', data['email']);
-		hiddenRedirectInputValue = `${window.location.origin}/submissionRecieved?${relevantParams.toString()}`;
+		hiddenRedirectInputValue = `${window.location.origin}/payment?${relevantParams.toString()}`;
 		hiddenAutoResponseInputValue = `We recieved your form submission, ${data['name']}!
 		\n
 		Be sure to complete payment at ${hiddenRedirectInputValue} and we will get started finding you leads!`;
