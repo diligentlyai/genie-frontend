@@ -11,21 +11,21 @@
 	let hiddenAutoResponseInputValue: string;
 	const reservedNames = ['file', 'json'];
 	let isSubmitting = false;
-	const inputTagnames: ('input' | 'textarea' | 'select')[] = ['input', 'textarea', 'select']
+	const inputTagnames = ['input', 'textarea', 'select']
 
-	function pullValuesOutOfInputList(list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>, data: Record<string, string>) {
-		for (let i = 0; i < list.length; i++) {
-			const input = list.item(i);
-			if (reservedNames.includes(input.name) || input.name.startsWith('_')) continue;
-			data[input.name] = input.value;
-		}
-	}
 	function handleSubmit() {
 		if (!formElement) return;
 		isSubmitting = true;
 		const data: Record<string, string> = {};
+		function pullValuesOutOfInputList(list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+			for (let i = 0; i < list.length; i++) {
+				const input = list.item(i);
+				if (reservedNames.includes(input.name) || input.name.startsWith('_')) continue;
+				data[input.name] = input.value;
+			}
+		}
 		inputTagnames.forEach(tag => {
-			pullValuesOutOfInputList(formElement.querySelectorAll(tag), data)
+			pullValuesOutOfInputList(formElement.querySelectorAll(tag))
 		});
 		
 		hiddenJsonInputValue = JSON.stringify(data);
