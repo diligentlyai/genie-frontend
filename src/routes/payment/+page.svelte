@@ -23,11 +23,12 @@
         }
     }
 	async function checkout() {
-        const accountPriceid = 'prod_QfOLJTuKvDUfMS'
+        const accountPriceid = 'price_1Po3Z4GvSx9gKzNO1BTjXPLi'
 		const numAccounts = parseInt(params.get('numAccounts') ?? '0');
-        // const contactPriceId = 'prod_QfONGooRUUhoEw'
+        // const contactPriceId = 'price_1Po3aKGvSx9gKzNO2A3wBrfz'
 		// const numContacts = parseInt(params.get('numContacts') ?? '0');
 		if (Number.isNaN(numAccounts) || numAccounts == 0) throw new Error("No items in cart");
+        console.log({numAccounts, accountPriceid})
 		const stripe = await loadStripe(
 			'pk_live_51O2guJGvSx9gKzNOvCql221PDRPlq564tmqXcekOJjc6Vti8FpTrPnx6Ib4LNhlzSMFDovhhz3TJ3Yy5uefRHzir000QpRy0t8'
 		);
