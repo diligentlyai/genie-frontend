@@ -59,9 +59,7 @@
 					}}>Add New Feature</Button
 				>
 				<div>
-					<Label for="numAccounts">
-						How many accounts do you need?
-					</Label>
+					<Label for="numAccounts">How many accounts do you need?</Label>
 					<Input type="number" id="numAccounts" name="numAccounts" />
 				</div>
 				<div>
@@ -114,9 +112,7 @@
 					}}>Add New Role</Button
 				>
 				<div>
-					<Label for="numContacts">
-						How many contacts do you need per account?
-					</Label>
+					<Label for="numContacts">How many contacts do you need per account?</Label>
 					<Input type="number" id="numContacts" name="numContacts" />
 				</div>
 				<div>
