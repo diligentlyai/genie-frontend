@@ -68,6 +68,12 @@
 					</Label>
 					<Textarea id="accountQualificationProcess" name="accountQualificationProcess" />
 				</div>
+				<div>
+					<Label for="accountCommonDataSources">
+						List your commonly used data sources (Ex: company's website, LinkedIn, etc.)
+					</Label>
+					<Textarea id="accountCommonDataSources" name="accountCommonDataSources" />
+				</div>
 			</Card.Content>
 		</Tabs.Content>
 		<Tabs.Content value="contacts">
