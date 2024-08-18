@@ -49,6 +49,7 @@
 		enctype="multipart/form-data"
 		method="post"
 		action="https://formsubmit.co/95bf24aaf0e026f44afd2d96613be9c0"
+		class="space-y-3"
 	>
 		<input name="json" id="json" bind:value={hiddenJsonInputValue} class="hidden" />
 		<section class="space-y-2">
