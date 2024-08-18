@@ -12,3 +12,7 @@ const testEnv = true;
 export const publishableKey = testEnv ? test_publishable_key : prod_publishable_key;
 export const account_price_id = testEnv ? test_account_price_id : prod_account_price_id;
 export const contact_price_id = testEnv ? test_contact_price_id : prod_contact_price_id;
+
+export const email_public_key = 'WoMvTOlnT-icksOTQ';
+export const email_service = 'service_8wzh2fl';
+export const email_template = 'template_xvk8z5h';

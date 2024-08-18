@@ -4,17 +4,16 @@
 	import Tabs from './tabs.svelte';
 	import Filepicker from '../../lib/components/custom/filepicker.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import * as emailjs from '@emailjs/browser';
+	import { email_public_key, email_service, email_template } from '$lib/keys';
 	let formElement: HTMLFormElement;
-	let hiddenJsonInputValue: string;
-	let hiddenRedirectInputValue: string;
-	let hiddenSubjectInputValue: string;
-	let hiddenAutoResponseInputValue: string;
 	const reservedNames = ['file', 'json'];
 	let isSubmitting = false;
 	const inputTagnames = ['input', 'textarea', 'select'];
 
-	function handleSubmit() {
+	function handleSubmit(e: SubmitEvent) {
 		if (!formElement) return;
+		e.preventDefault();
 		isSubmitting = true;
 		const data: Record<string, string> = {};
 		function pullValuesOutOfInputList(
@@ -29,35 +28,37 @@
 		inputTagnames.forEach((tag) => {
 			pullValuesOutOfInputList(formElement.querySelectorAll(tag));
 		});
-
-		hiddenJsonInputValue = JSON.stringify(data);
-		hiddenSubjectInputValue = `New Genie Form Submission From ${data['name']}`;
 		const relevantParams = new URLSearchParams();
 		relevantParams.append('name', data['name']);
 		relevantParams.append('numContacts', data['numContacts']);
 		relevantParams.append('numAccounts', data['numAccounts']);
 		relevantParams.append('email', data['email']);
-		hiddenRedirectInputValue = `${window.location.origin}/payment?${relevantParams.toString()}`;
-		hiddenAutoResponseInputValue = `We recieved your form submission, ${data['name']}!
-		\n
-		Be sure to complete payment at ${hiddenRedirectInputValue} and we will get started finding you leads!`;
+
+		emailjs.init({
+			publicKey: email_public_key
+		});
+
+		const templateParams = {
+			name: data['name'],
+			json_block: JSON.stringify(data),
+			email: data['email']
+		};
+
+		emailjs.send(email_service, email_template, templateParams).then(
+			(response) => {
+				isSubmitting = false;
+				console.log('SUCCESS!', response.status, response.text);
+			},
+			(error) => {
+				console.log('FAILED...', error);
+			}
+		);
 	}
 </script>
 
 <svelte:head><title>DiligentlyAI - Genie - Form</title></svelte:head>
 
-<form
-	bind:this={formElement}
-	on:submit={handleSubmit}
-	enctype="multipart/form-data"
-	method="post"
-	action="https://formsubmit.co/95bf24aaf0e026f44afd2d96613be9c0"
-	class="space-y-3"
->
-	<input type="hidden" name="json" bind:value={hiddenJsonInputValue} />
-	<input type="hidden" name="_next" bind:value={hiddenRedirectInputValue} />
-	<input type="hidden" name="_subject" bind:value={hiddenSubjectInputValue} />
-	<input type="hidden" name="_autoresponse" bind:value={hiddenAutoResponseInputValue} />
+<form bind:this={formElement} on:submit={handleSubmit} class="space-y-3">
 	<section class="space-y-2">
 		<h4 class="text-2xl font-medium">Contact Details</h4>
 		<div class="flex flex-row gap-5">
@@ -74,7 +75,7 @@
 	<section>
 		<Tabs />
 	</section>
-	<section class="space-y-2">
+	<!-- <section class="space-y-2">
 		<h4>Provide starting account list</h4>
 		<div class="flex align-baseline gap-5">
 			<div class="mt-6 w-32">
@@ -89,7 +90,7 @@
 				<Input name="websiteColumn" id="websiteColumn" placeholder="website" />
 			</div>
 		</div>
-	</section>
+	</section> -->
 	<section class="block space-y-2">
 		<Button class="block ml-auto min-w-64" type="submit" disabled={isSubmitting}>
 			{#if isSubmitting}
