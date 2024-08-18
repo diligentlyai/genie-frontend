@@ -19,10 +19,12 @@
 		const params = new URLSearchParams(window.location.search);
 		const numAccounts = parseInt(params.get('numAccounts') ?? '0');
 		if (Number.isNaN(numAccounts) || numAccounts == 0) throw new Error('No items in cart');
-		const lineItems: RedirectToCheckoutClientOptions['lineItems'] = [{
-			price: account_price_id,
-			quantity: numAccounts
-		}];
+		const lineItems: RedirectToCheckoutClientOptions['lineItems'] = [
+			{
+				price: account_price_id,
+				quantity: numAccounts
+			}
+		];
 		if (params.get('includeContacts')) {
 			const numContacts = parseInt(params.get('numContacts') ?? '0');
 			if (Number.isNaN(numContacts) || numContacts == 0)
