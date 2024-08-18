@@ -1,12 +1,40 @@
-<script>
+<script lang="ts">
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import Tabs from './tabs.svelte';
 	import Filepicker from '../../lib/components/custom/filepicker.svelte';
 	import { Button } from '$lib/components/ui/button';
+	let formElement: HTMLFormElement
+
+	function handleSubmit(e: SubmitEvent) {
+		e.preventDefault()
+		const data: Record<string, string | Blob> = {}
+		const inputs = formElement.querySelectorAll('input')
+		for (let i = 0; i < inputs.length; i++) {
+			const input = inputs.item(i)
+			if (input.type == "file" && !!input.files?.[0]) {
+				data[input.name] = input.files[0]
+			} else {
+				data[input.name] = input.value
+			}
+		}
+		const textareas = formElement.querySelectorAll('textarea')
+		for (let i = 0; i < textareas.length; i++) {
+			const textarea = textareas.item(i)
+			data[textarea.name] = textarea.value
+		}
+		const selects = formElement.querySelectorAll('select')
+		for (let i = 0; i < selects.length; i++) {
+			const select = selects.item(i)
+			data[select.name] = select.value
+		}
+		console.log("Submitted form data:", data)
+	}
 </script>
 
-<form class="p-5 mx-auto max-w-screen-md space-y-3">
+<svelte:head><title>DiligentlyAI - Genie</title></svelte:head>
+
+<form class="p-5 mx-auto max-w-screen-md space-y-3" on:submit={handleSubmit} bind:this={formElement}>
 	<section class=" pl-16 p-5 relative space-y-4">
 		<h1 class="text-4xl font-bold">Diligently AI</h1>
 		<h3>Lead generation focused on increasing quality over quantity.</h3>
@@ -35,18 +63,17 @@
 				<Filepicker>Upload file</Filepicker>
 			</div>
 			<div>
-				<Label for="companyNameColumn">Company Name Column</Label>
-				<Input name="companyNameColumn" placeholder="companyName"/>
+				<Label for="companyNameColumn" id="companyNameColumn">Company Name Column</Label>
+				<Input name="companyNameColumn" id="companyNameColumn" placeholder="companyName"/>
 			</div>
 			<div>
-				<Label for="websiteColumn">Website Column</Label>
-				<Input name="websiteColumn" placeholder="website"/>
+				<Label for="websiteColumn" id="websiteColumn">Website Column</Label>
+				<Input name="websiteColumn" id="websiteColumn" placeholder="website"/>
 			</div>
 		</div>
 	</section>
 	<section class="block space-y-2">
-		<Button class="block ml-auto">Find accounts and contacts</Button>
-		<Button class="block ml-auto">Find accounts</Button>
+		<Button class="block ml-auto" type="submit">Find accounts and contacts</Button>
 		<p>
 			<span class="ml-auto block w-fit"
 				>Because we get real time updated information, we take a few days to get results.</span

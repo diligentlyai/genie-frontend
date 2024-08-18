@@ -12,6 +12,8 @@
 <input
 	type="file"
 	multiple={false}
+	id="file"
+	name="file"
 	bind:this={fileInput}
 	bind:value={rawFileName}
 	style="display: none;"
