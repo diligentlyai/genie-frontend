@@ -20,7 +20,7 @@
 			<Card.Header>
 				<Card.Title>Define your ICP Account</Card.Title>
 			</Card.Header>
-			<Card.Content class="space-y-2">
+			<Card.Content class="space-y-4">
 				{#each accountRows as id}
 					<div id={`account-${id}`} class="flex items-end gap-2">
 						<div class="w-32">
@@ -54,31 +54,36 @@
 					</div>
 				{/each}
 				<Button
+					class='min-w-40'
 					on:click={() => {
 						accountRows.push(Math.max(...accountRows, 0) + 1);
 						accountRows = accountRows;
-					}}>New</Button
+					}}>Add New Feature</Button
 				>
-				<Label for="numAccounts" class="block"
+				<div>
+					<Label for="numAccounts" class="block"
 					>How many accounts do you need?</Label
 				>
 				<Input type="number" id="numAccounts" name="numAccounts" />
-				<Label for="accountQualificationProcess" class="block"
+				</div>
+				<div>
+					<Label for="accountQualificationProcess" class="block"
 					>Describe your account qualification process</Label
 				>
-				<Textarea id="accountQualificationProcess" name="accountQualificationProcess" />
-			</Card.Content>
+					<Textarea id="accountQualificationProcess" name="accountQualificationProcess" />
+				</div>
+				</Card.Content>
 		</Tabs.Content>
 		<Tabs.Content value="contacts">
 			<Card.Header>
 				<Card.Title>Define your ICP Contact</Card.Title>
 			</Card.Header>
-			<Card.Content class="space-y-2">
+			<Card.Content class="space-y-4">
 				{#each contactRows as id}
 					<div id={`contact-${id}`} class="flex items-end gap-2">
 						<div class="w-32">
-							<Label for={`contact-${id}-feature-name`}> Feature Name</Label>
-							<Input id={`contact-${id}-feature-name`}/>
+							<Label for={`contact-${id}-role-name`}> Role Name</Label>
+							<Input id={`contact-${id}-role-name`}/>
 						</div>
 						<div class="flex-grow">
 							<Label for={`contact-${id}-description`}> Description</Label>
@@ -100,25 +105,30 @@
 						<Button
 							class="ml-auto"
 							on:click={() => {
-								accountRows = accountRows.filter((i) => id != id);
+								contactRows = contactRows.filter((i) => i != id);
 							}}>Remove</Button
 						>
 					</div>
 				{/each}
 				<Button
+					class='min-w-40'
 					on:click={() => {
 						contactRows.push(Math.max(...contactRows, 0) + 1);
 						contactRows = contactRows;
-					}}>New</Button
+					}}>Add New Role</Button
 				>
-				<Label for="numContacts" class="block"
+				<div>
+					<Label for="numContacts" class="block"
 					>How many contacts do you need per account?</Label
-				>
-				<Input type="number" id="numContacts" name="numContacts" />
-				<Label for="contactQualificationProcess" class="block"
+					>
+					<Input type="number" id="numContacts" name="numContacts" />
+				</div>
+				<div>
+					<Label for="contactQualificationProcess" class="block"
 					>Describe your contact qualification process</Label
-				>
-				<Textarea id="contactQualificationProcess" name="contactQualificationProcess" />
+					>
+					<Textarea id="contactQualificationProcess" name="contactQualificationProcess" />
+				</div>
 			</Card.Content>
 		</Tabs.Content>
 	</Card.Root>
