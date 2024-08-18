@@ -14,11 +14,10 @@
 	const reservedNames = ['file', 'json'];
 	const inputTagnames = ['input', 'textarea', 'select'];
 
-	function handleSubmit(includeContacts?: boolean) {
-		if (includeContacts == undefined) {
-			const num = formElement.querySelector<HTMLInputElement>('#numContacts');
-			includeContacts = parseInt(num?.value ?? '0') > 0;
-		}
+	function handleSubmit(e: SubmitEvent) {
+		e.preventDefault();
+		const submitter = e.submitter as HTMLButtonElement;
+		const includeContacts = submitter.name == 'accountsAndContacts';
 		if (includeContacts) {
 			isSubmittingAccountsAndContacts = true;
 		} else {
@@ -72,24 +71,17 @@
 
 <svelte:head><title>DiligentlyAI - Genie - Form</title></svelte:head>
 
-<form
-	bind:this={formElement}
-	on:submit={(e) => {
-		e.preventDefault();
-		handleSubmit();
-	}}
-	class="space-y-3"
->
+<form bind:this={formElement} on:submit={handleSubmit} class="space-y-3">
 	<section class="space-y-2">
 		<h4 class="text-2xl font-medium">Contact Details</h4>
 		<div class="flex flex-row gap-5">
 			<div class="w-[40%]">
 				<Label for="name">Name</Label>
-				<Input id="name" name="name" />
+				<Input id="name" name="name" required />
 			</div>
 			<div class="w-[60%]">
 				<Label for="email">Email</Label>
-				<Input id="email" name="email" />
+				<Input id="email" name="email" required type="email" />
 			</div>
 		</div>
 	</section>
@@ -113,31 +105,26 @@
 		</div>
 	</section> -->
 	<section class="block space-y-2">
-		<Button
-			class="block ml-auto min-w-56"
-			type="button"
-			disabled={isSubmitting}
-			on:click={() => handleSubmit(false)}
-		>
+		<Button name="accounts" class="block ml-auto min-w-56" type="submit" disabled={isSubmitting}>
 			{#if isSubmittingAccounts}
 				<span class="flex items-center justify-center gap-6">
 					Submitting
-					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
+					<div class="w-6 h-6 border-black border-l-2 animate-spin rounded-full" />
 				</span>
 			{:else}
 				Find accounts
 			{/if}
 		</Button>
 		<Button
+			name="accountsAndContacts"
 			class="block ml-auto min-w-56"
-			type="button"
+			type="submit"
 			disabled={isSubmitting}
-			on:click={() => handleSubmit(true)}
 		>
 			{#if isSubmittingAccountsAndContacts}
 				<span class="flex items-center justify-center gap-6">
 					Submitting
-					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
+					<div class="w-6 h-6 border-black border-l-2 animate-spin rounded-full" />
 				</span>
 			{:else}
 				Find accounts and contacts
