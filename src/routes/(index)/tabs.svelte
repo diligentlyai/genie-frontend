@@ -6,6 +6,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import Myselect from '$lib/components/custom/myselect.svelte';
+	import { numAccounts, numContacts } from './store';
 	let accountRows = [1];
 	let contactRows = [1];
 </script>
@@ -70,7 +71,14 @@
 				</div>
 				<div>
 					<Label for="numAccounts">How many accounts do you need?</Label>
-					<Input type="number" id="numAccounts" name="numAccounts" required min="1" />
+					<Input
+						type="number"
+						id="numAccounts"
+						name="numAccounts"
+						required
+						min="1"
+						bind:value={$numAccounts}
+					/>
 				</div>
 				<div>
 					<Label for="accountQualificationProcess">
@@ -132,7 +140,13 @@
 				</div>
 				<div>
 					<Label for="numContacts">How many contacts do you need per account?</Label>
-					<Input type="number" id="numContacts" name="numContacts"  min="1"/>
+					<Input
+						type="number"
+						id="numContacts"
+						name="numContacts"
+						min="1"
+						bind:value={$numContacts}
+					/>
 				</div>
 				<div>
 					<Label for="contactQualificationProcess">

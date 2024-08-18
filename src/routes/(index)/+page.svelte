@@ -5,6 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as emailjs from '@emailjs/browser';
 	import { email_public_key, email_service, email_template } from '$lib/keys';
+	import { numAccounts, numContacts } from './store';
 
 	let formElement: HTMLFormElement;
 	let isSubmittingAccounts = false;
@@ -105,7 +106,12 @@
 		</div>
 	</section> -->
 	<section class="block space-y-2">
-		<Button name="accounts" class="block ml-auto min-w-56" type="submit" disabled={isSubmitting}>
+		<Button
+			name="accounts"
+			class="block ml-auto min-w-56"
+			type="submit"
+			disabled={isSubmitting || !$numAccounts}
+		>
 			{#if isSubmittingAccounts}
 				<span class="flex items-center justify-center gap-6">
 					Submitting
@@ -119,7 +125,7 @@
 			name="accountsAndContacts"
 			class="block ml-auto min-w-56"
 			type="submit"
-			disabled={isSubmitting}
+			disabled={isSubmitting || !$numContacts || !$numAccounts}
 		>
 			{#if isSubmittingAccountsAndContacts}
 				<span class="flex items-center justify-center gap-6">
