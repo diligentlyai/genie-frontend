@@ -53,18 +53,16 @@
 <svelte:head><title>DiligentlyAI - Genie - Payment</title></svelte:head>
 <div class="px-16">
 	{#if !failure}
-	<h4 class="text-2xl mt-10">
-		<div class="mx-auto flex gap-8 items-center justify-center">
-			Redirecting to Stripe
-			<div class="w-8 h-8 border-l-2 border-green-700 rounded-full animate-spin"></div>
-		</div>
-	</h4>
-	{:else}
-	<h4 class="text-2xl mt-6">
-		<div class=" text-red-500">
-			Error
+		<h4 class="text-2xl mt-10">
+			<div class="mx-auto flex gap-8 items-center justify-center">
+				Redirecting to Stripe
+				<div class="w-8 h-8 border-l-2 border-green-700 rounded-full animate-spin"></div>
 			</div>
-	</h4>
+		</h4>
+	{:else}
+		<h4 class="text-2xl mt-6">
+			<div class=" text-red-500">Error</div>
+		</h4>
 		{#if failedBecauseContacts}
 			<p>Switch to the contacts tab and fill out the requested number of contacts</p>
 		{:else}
