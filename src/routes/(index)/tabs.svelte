@@ -5,7 +5,6 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
-	import * as Select from '$lib/components/ui/select';
 	import Myselect from '$lib/components/custom/myselect.svelte';
 	let accountRows = [1];
 	let contactRows = [1];
