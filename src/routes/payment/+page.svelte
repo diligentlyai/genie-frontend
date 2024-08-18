@@ -3,27 +3,19 @@
 	import { account_price_id, publishableKey } from '$lib/keys';
 	import { loadStripe } from '@stripe/stripe-js';
 	import { onMount } from 'svelte';
-
-	let params = new URLSearchParams();
-	$: name = params.get('name') ?? '';
 	let failure = false;
-	onMount(async () => {
-		params = new URLSearchParams(window.location.search);
-		try {
-			await checkout();
-		} catch (e) {
-			failure = true;
-			console.error('Something went wrong...', e);
-		}
-	});
-	async function handleClick() {
-		try {
-			await checkout();
-		} catch (e) {
-			console.error('Something went wrong...', e);
-		}
-	}
+	onMount(() =>
+		setTimeout(async () => {
+			try {
+				await checkout();
+			} catch (e) {
+				console.error('Something went wrong...', e);
+				failure = true;
+			}
+		}, 300)
+	);
 	async function checkout() {
+		const params = new URLSearchParams(window.location.search);
 		const numAccounts = parseInt(params.get('numAccounts') ?? '0');
 		// const numContacts = parseInt(params.get('numContacts') ?? '0');
 		if (Number.isNaN(numAccounts) || numAccounts == 0) throw new Error('No items in cart');
@@ -38,8 +30,8 @@
 				}
 			],
 			mode: 'payment',
-			successUrl: `${window.location.origin}/success`,
-			cancelUrl: `${window.location.href}&cancel=true`
+			successUrl: `${window.location.origin}/success?name=${params.get('name')}`,
+			cancelUrl: `${window.location.origin}/close`
 		});
 		if (error) throw new Error(`Checkout failed with error: ${error}`);
 	}
@@ -47,15 +39,14 @@
 
 <svelte:head><title>DiligentlyAI - Genie - Payment</title></svelte:head>
 <div class="px-16">
-	<h4>
-		{#if name}
-			We've recieved your submission, {name}!
-		{:else}
-			We've recieved your submission!
-		{/if}
+	<h4 class="text-2xl mt-10">
+		<div class="mx-auto flex gap-8 items-center justify-center">
+			Redirecting to Stripe
+			<div class="w-8 h-8 border-l-2 border-green-700 rounded-full animate-spin"></div>
+		</div>
 	</h4>
-	<p>We're looking forward to working with you.</p>
 	{#if failure}
-		<Button on:click={handleClick}>Click here to continue to checkout with Stripe</Button>
+		<p>Something go wrong?</p>
+		<Button on:click={() => checkout()}>Try again</Button>
 	{/if}
 </div>
