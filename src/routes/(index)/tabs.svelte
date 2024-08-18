@@ -59,13 +59,15 @@
 					}}>Add New Feature</Button
 				>
 				<div>
-					<Label for="numAccounts" class="block">How many accounts do you need?</Label>
+					<Label for="numAccounts">
+						How many accounts do you need?
+					</Label>
 					<Input type="number" id="numAccounts" name="numAccounts" />
 				</div>
 				<div>
-					<Label for="accountQualificationProcess" class="block"
-						>Describe your account qualification process</Label
-					>
+					<Label for="accountQualificationProcess">
+						Describe your account qualification process
+					</Label>
 					<Textarea id="accountQualificationProcess" name="accountQualificationProcess" />
 				</div>
 			</Card.Content>
@@ -112,13 +114,15 @@
 					}}>Add New Role</Button
 				>
 				<div>
-					<Label for="numContacts" class="block">How many contacts do you need per account?</Label>
+					<Label for="numContacts">
+						How many contacts do you need per account?
+					</Label>
 					<Input type="number" id="numContacts" name="numContacts" />
 				</div>
 				<div>
-					<Label for="contactQualificationProcess" class="block"
-						>Describe your contact qualification process</Label
-					>
+					<Label for="contactQualificationProcess">
+						Describe your contact qualification process
+					</Label>
 					<Textarea id="contactQualificationProcess" name="contactQualificationProcess" />
 				</div>
 			</Card.Content>
