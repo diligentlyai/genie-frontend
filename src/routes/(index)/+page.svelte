@@ -11,27 +11,23 @@
 	let hiddenAutoResponseInputValue: string;
 	const reservedNames = ['file', 'json'];
 	let isSubmitting = false;
+	const inputTagnames: ('input' | 'textarea' | 'select')[] = ['input', 'textarea', 'select']
+
+	function pullValuesOutOfInputList(list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>, data: Record<string, string>) {
+		for (let i = 0; i < list.length; i++) {
+			const input = list.item(i);
+			if (reservedNames.includes(input.name) || input.name.startsWith('_')) continue;
+			data[input.name] = input.value;
+		}
+	}
 	function handleSubmit() {
 		if (!formElement) return;
 		isSubmitting = true;
 		const data: Record<string, string> = {};
-		const inputs = formElement.querySelectorAll('input');
-		for (let i = 0; i < inputs.length; i++) {
-			const input = inputs.item(i);
-			if (reservedNames.includes(input.name) || input.name.startsWith('_')) continue;
-
-			data[input.name] = input.value;
-		}
-		const textareas = formElement.querySelectorAll('textarea');
-		for (let i = 0; i < textareas.length; i++) {
-			const textarea = textareas.item(i);
-			data[textarea.name] = textarea.value;
-		}
-		const selects = formElement.querySelectorAll('select');
-		for (let i = 0; i < selects.length; i++) {
-			const select = selects.item(i);
-			data[select.name] = select.value;
-		}
+		inputTagnames.forEach(tag => {
+			pullValuesOutOfInputList(formElement.querySelectorAll(tag), data)
+		});
+		
 		hiddenJsonInputValue = JSON.stringify(data);
 		hiddenSubjectInputValue = `New Genie Form Submission From ${data['name']}`;
 		const relevantParams = new URLSearchParams();
