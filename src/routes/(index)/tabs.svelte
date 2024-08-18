@@ -20,8 +20,9 @@
 			<Card.Header>
 				<Card.Title>Define your ICP Account</Card.Title>
 			</Card.Header>
-			<Card.Content class="space-y-4">
-				{#each accountRows as id}
+			<Card.Content class="space-y-6">
+				<div class="space-y-2">
+					{#each accountRows as id}
 					<div id={`account-${id}`} class="flex items-end gap-2">
 						<div class="w-32 lg:w-64">
 							<Label for={`account-${id}-feature-name`}>Feature Name</Label>
@@ -34,30 +35,32 @@
 						<div class="w-32">
 							<Label for={`account-${id}-type`}>Type</Label>
 							<Myselect
-								id={`account-${id}-type`}
-								options={[
-									{ value: 'constraint', text: 'Constraint' },
-									{ value: 'keyword', text: 'Keyword' },
-									{ value: 'true-false', text: 'True/False' }
-								]}
+							id={`account-${id}-type`}
+							options={[
+								{ value: 'constraint', text: 'Constraint' },
+								{ value: 'keyword', text: 'Keyword' },
+								{ value: 'true-false', text: 'True/False' }
+							]}
 							/>
 						</div>
-
+						
 						<Button
-							class="ml-auto"
-							on:click={() => {
-								accountRows = accountRows.filter((i) => i != id);
-							}}>Remove</Button
+						class="ml-auto"
+						variant="destructive"
+						on:click={() => {
+							accountRows = accountRows.filter((i) => i != id);
+						}}>Remove</Button
 						>
 					</div>
-				{/each}
-				<Button
+					{/each}
+					<Button
 					class="min-w-40"
 					on:click={() => {
 						accountRows.push(Math.max(...accountRows, 0) + 1);
 						accountRows = accountRows;
 					}}>Add New Feature</Button
 				>
+			</div>
 				<div>
 					<Label for="numAccounts">How many accounts do you need?</Label>
 					<Input type="number" id="numAccounts" name="numAccounts" />
@@ -80,8 +83,9 @@
 			<Card.Header>
 				<Card.Title>Define your ICP Contact</Card.Title>
 			</Card.Header>
-			<Card.Content class="space-y-4">
-				{#each contactRows as id}
+			<Card.Content class="space-y-6">
+				<div class="space-y-2">
+					{#each contactRows as id}
 					<div id={`contact-${id}`} class="flex items-end gap-2">
 						<div class="w-32 lg:w-64">
 							<Label for={`contact-${id}-role-name`}>Role Name</Label>
@@ -94,29 +98,31 @@
 						<div class="w-32">
 							<Label for={`contact-${id}-type`}>Type</Label>
 							<Myselect
-								id={`contact-${id}-type`}
-								options={[
-									{ value: 'buyer', text: 'Buyer' },
-									{ value: 'user', text: 'User' },
-									{ value: 'both', text: 'Both' }
-								]}
+							id={`contact-${id}-type`}
+							options={[
+								{ value: 'buyer', text: 'Buyer' },
+								{ value: 'user', text: 'User' },
+								{ value: 'both', text: 'Both' }
+							]}
 							/>
 						</div>
 						<Button
-							class="ml-auto"
-							on:click={() => {
-								contactRows = contactRows.filter((i) => i != id);
-							}}>Remove</Button
+						class="ml-auto"
+						variant="destructive"
+						on:click={() => {
+							contactRows = contactRows.filter((i) => i != id);
+						}}>Remove</Button
 						>
 					</div>
-				{/each}
-				<Button
+					{/each}
+					<Button
 					class="min-w-40"
 					on:click={() => {
 						contactRows.push(Math.max(...contactRows, 0) + 1);
 						contactRows = contactRows;
 					}}>Add New Role</Button
 				>
+			</div>
 				<div>
 					<Label for="numContacts">How many contacts do you need per account?</Label>
 					<Input type="number" id="numContacts" name="numContacts" />
