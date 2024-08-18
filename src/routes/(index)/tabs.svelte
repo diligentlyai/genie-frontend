@@ -6,6 +6,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import * as Select from '$lib/components/ui/select';
+	import Myselect from '$lib/components/custom/myselect.svelte';
 	let accountRows = [1];
 	let contactRows = [1];
 </script>
@@ -33,16 +34,7 @@
 						</div>
 						<div class="w-32">
 							<Label for={`account-${id}-type`}>Type</Label>
-							<Select.Root name={`account-${id}-type`}>
-								<Select.Trigger class="w-full">
-								<Select.Value />
-								</Select.Trigger>
-								<Select.Content>
-								<Select.Item value="constraint">Constraint</Select.Item>
-								<Select.Item value="keyword">Keyword</Select.Item>
-								<Select.Item value="true-false">True/False</Select.Item>
-								</Select.Content>
-							</Select.Root>
+							<Myselect id={`account-${id}-type`} options={[{value: 'constraint', text: 'Constraint'},{value: 'keyword', text: 'Keyword'},{value: 'true-false', text: 'True/False'}]}/>
 						</div>
 						
 						<Button
@@ -83,24 +75,15 @@
 					<div id={`contact-${id}`} class="flex items-end gap-2">
 						<div class="w-32">
 							<Label for={`contact-${id}-role-name`}> Role Name</Label>
-							<Input id={`contact-${id}-role-name`}/>
+							<Input id={`contact-${id}-role-name`} name={`contact-${id}-role-name`}/>
 						</div>
 						<div class="flex-grow">
 							<Label for={`contact-${id}-description`}> Description</Label>
-							<Input id={`contact-${id}-description`}/>
+							<Input id={`contact-${id}-description`} name={`contact-${id}-description`}/>
 						</div>
 						<div class="w-32">
 							<Label for={`contact-${id}-type`}>Type</Label>
-							<Select.Root name={`contact-${id}-type`}>
-								<Select.Trigger class="w-full">
-								<Select.Value />
-								</Select.Trigger>
-								<Select.Content>
-								<Select.Item value="buyer">Buyer</Select.Item>
-								<Select.Item value="user">User</Select.Item>
-								<Select.Item value="both">Both</Select.Item>
-								</Select.Content>
-							</Select.Root>
+							<Myselect id={`contact-${id}-type`} options={[{value: 'buyer', text: 'Buyer'},{value: 'user', text: 'User'},{value: 'both', text: 'Both'}]}/>
 						</div>
 						<Button
 							class="ml-auto"
