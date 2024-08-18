@@ -1,5 +1,6 @@
 <script>
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { account_price_id, publishableKey } from '$lib/keys';
     import { loadStripe } from '@stripe/stripe-js';
 	import { onMount } from 'svelte';
 
@@ -23,20 +24,18 @@
         }
     }
 	async function checkout() {
-        const accountPriceid = 'price_1Po3Z4GvSx9gKzNO1BTjXPLi'
 		const numAccounts = parseInt(params.get('numAccounts') ?? '0');
-        // const contactPriceId = 'price_1Po3aKGvSx9gKzNO2A3wBrfz'
 		// const numContacts = parseInt(params.get('numContacts') ?? '0');
 		if (Number.isNaN(numAccounts) || numAccounts == 0) throw new Error("No items in cart");
-        console.log({numAccounts, accountPriceid})
+        console.log({numAccounts, account_price_id})
 		const stripe = await loadStripe(
-			'pk_live_51O2guJGvSx9gKzNOvCql221PDRPlq564tmqXcekOJjc6Vti8FpTrPnx6Ib4LNhlzSMFDovhhz3TJ3Yy5uefRHzir000QpRy0t8'
+			publishableKey
 		);
 		if (!stripe) throw new Error("Failed to load stripe");
 		const { error } = await stripe.redirectToCheckout({
 			lineItems: [
 				{
-					price: accountPriceid,
+					price: account_price_id,
 					quantity: numAccounts
 				}
 			],
