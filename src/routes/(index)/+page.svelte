@@ -2,20 +2,28 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import Tabs from './tabs.svelte';
-	import Filepicker from '../../lib/components/custom/filepicker.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import * as emailjs from '@emailjs/browser';
+	import { email_public_key, email_service, email_template } from '$lib/keys';
+
 	let formElement: HTMLFormElement;
-	let hiddenJsonInputValue: string;
-	let hiddenRedirectInputValue: string;
-	let hiddenSubjectInputValue: string;
-	let hiddenAutoResponseInputValue: string;
+	let isSubmittingAccounts = false;
+	let isSubmittingAccountsAndContacts = false;
+	$: isSubmitting = isSubmittingAccounts || isSubmittingAccountsAndContacts;
+
 	const reservedNames = ['file', 'json'];
-	let isSubmitting = false;
 	const inputTagnames = ['input', 'textarea', 'select'];
 
-	function handleSubmit() {
-		if (!formElement) return;
-		isSubmitting = true;
+	function handleSubmit(includeContacts?: boolean) {
+		if (includeContacts == undefined) {
+			const num = formElement.querySelector<HTMLInputElement>('#numContacts');
+			includeContacts = parseInt(num?.value ?? '0') > 0;
+		}
+		if (includeContacts) {
+			isSubmittingAccountsAndContacts = true;
+		} else {
+			isSubmittingAccounts = true;
+		}
 		const data: Record<string, string> = {};
 		function pullValuesOutOfInputList(
 			list: NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -30,17 +38,35 @@
 			pullValuesOutOfInputList(formElement.querySelectorAll(tag));
 		});
 
-		hiddenJsonInputValue = JSON.stringify(data);
-		hiddenSubjectInputValue = `New Genie Form Submission From ${data['name']}`;
-		const relevantParams = new URLSearchParams();
-		relevantParams.append('name', data['name']);
-		relevantParams.append('numContacts', data['numContacts']);
-		relevantParams.append('numAccounts', data['numAccounts']);
-		relevantParams.append('email', data['email']);
-		hiddenRedirectInputValue = `${window.location.origin}/payment?${relevantParams.toString()}`;
-		hiddenAutoResponseInputValue = `We recieved your form submission, ${data['name']}!
-		\n
-		Be sure to complete payment at ${hiddenRedirectInputValue} and we will get started finding you leads!`;
+		emailjs.init({
+			publicKey: email_public_key
+		});
+
+		const templateParams = {
+			name: data['name'],
+			json_block: JSON.stringify(data),
+			email: data['email']
+		};
+
+		emailjs.send(email_service, email_template, templateParams).then(
+			(response) => {
+				const params = new URLSearchParams();
+				params.append('name', data['name']);
+				params.append('numAccounts', data['numAccounts']);
+				if (includeContacts) {
+					params.append('numContacts', data['numContacts']);
+					params.append('includeContacts', 'true');
+				}
+				window.open(`/payment?${params.toString()}`, '_blank');
+				isSubmittingAccounts = false;
+				isSubmittingAccountsAndContacts = false;
+			},
+			(error) => {
+				console.error('Failed to send email...', error);
+				isSubmittingAccounts = false;
+				isSubmittingAccountsAndContacts = false;
+			}
+		);
 	}
 </script>
 
@@ -48,16 +74,12 @@
 
 <form
 	bind:this={formElement}
-	on:submit={handleSubmit}
-	enctype="multipart/form-data"
-	method="post"
-	action="https://formsubmit.co/95bf24aaf0e026f44afd2d96613be9c0"
+	on:submit={(e) => {
+		e.preventDefault();
+		handleSubmit();
+	}}
 	class="space-y-3"
 >
-	<input type="hidden" name="json" bind:value={hiddenJsonInputValue} />
-	<input type="hidden" name="_next" bind:value={hiddenRedirectInputValue} />
-	<input type="hidden" name="_subject" bind:value={hiddenSubjectInputValue} />
-	<input type="hidden" name="_autoresponse" bind:value={hiddenAutoResponseInputValue} />
 	<section class="space-y-2">
 		<h4 class="text-2xl font-medium">Contact Details</h4>
 		<div class="flex flex-row gap-5">
@@ -74,7 +96,7 @@
 	<section>
 		<Tabs />
 	</section>
-	<section class="space-y-2">
+	<!-- <section class="space-y-2">
 		<h4>Provide starting account list</h4>
 		<div class="flex align-baseline gap-5">
 			<div class="mt-6 w-32">
@@ -89,12 +111,32 @@
 				<Input name="websiteColumn" id="websiteColumn" placeholder="website" />
 			</div>
 		</div>
-	</section>
+	</section> -->
 	<section class="block space-y-2">
-		<Button class="block ml-auto min-w-64" type="submit" disabled={isSubmitting}>
-			{#if isSubmitting}
-				<span class="flex items-center justify-around">
-					Redirecting to payment...
+		<Button
+			class="block ml-auto min-w-56"
+			type="button"
+			disabled={isSubmitting}
+			on:click={() => handleSubmit(false)}
+		>
+			{#if isSubmittingAccounts}
+				<span class="flex items-center justify-center gap-6">
+					Submitting
+					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
+				</span>
+			{:else}
+				Find accounts
+			{/if}
+		</Button>
+		<Button
+			class="block ml-auto min-w-56"
+			type="button"
+			disabled={isSubmitting}
+			on:click={() => handleSubmit(true)}
+		>
+			{#if isSubmittingAccountsAndContacts}
+				<span class="flex items-center justify-center gap-6">
+					Submitting
 					<div class="w-6 h-6 border-green-700 border-l-2 animate-spin rounded-full" />
 				</span>
 			{:else}
