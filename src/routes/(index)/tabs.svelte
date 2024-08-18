@@ -5,8 +5,9 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
-	let accountIds = [1];
-	let contactIds = [1];
+	import * as Select from '$lib/components/ui/select';
+	let accountRows = [1];
+	let contactRows = [1];
 </script>
 
 <Tabs.Root>
@@ -20,20 +21,42 @@
 				<Card.Title>Define your ICP Account</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				{#each accountIds as id}
-					<div id={`account-${id}`}>
-						{id}<Button
-							class="ml-6"
+				{#each accountRows as id}
+					<div id={`account-${id}`} class="flex items-end gap-2">
+						<div class="w-32">
+							<Label for={`account-${id}-feature-name`}> Feature Name</Label>
+							<Input id={`account-${id}-feature-name`} name={`account-${id}-feature-name`}/>
+						</div>
+						<div class="flex-grow">
+							<Label for={`account-${id}-description`}> Description</Label>
+							<Input id={`account-${id}-description`} name={`account-${id}-description`}/>
+						</div>
+						<div class="w-32">
+							<Label for={`account-${id}-type`}>Type</Label>
+							<Select.Root name={`account-${id}-type`}>
+								<Select.Trigger class="w-full">
+								<Select.Value />
+								</Select.Trigger>
+								<Select.Content>
+								<Select.Item value="constraint">Constraint</Select.Item>
+								<Select.Item value="keyword">Keyword</Select.Item>
+								<Select.Item value="true-false">True/False</Select.Item>
+								</Select.Content>
+							</Select.Root>
+						</div>
+						
+						<Button
+							class="ml-auto"
 							on:click={() => {
-								accountIds = accountIds.filter((i) => i != id);
+								accountRows = accountRows.filter((i) => i != id);
 							}}>Remove</Button
 						>
 					</div>
 				{/each}
 				<Button
 					on:click={() => {
-						accountIds.push(Math.max(...accountIds, 0) + 1);
-						accountIds = accountIds;
+						accountRows.push(Math.max(...accountRows, 0) + 1);
+						accountRows = accountRows;
 					}}>New</Button
 				>
 				<Label for="numAccounts" class="block"
@@ -51,20 +74,41 @@
 				<Card.Title>Define your ICP Contact</Card.Title>
 			</Card.Header>
 			<Card.Content class="space-y-2">
-				{#each contactIds as id}
-					<div id={`contact-${id}`}>
-						{id}<Button
-							class="ml-6"
+				{#each contactRows as id}
+					<div id={`contact-${id}`} class="flex items-end gap-2">
+						<div class="w-32">
+							<Label for={`contact-${id}-feature-name`}> Feature Name</Label>
+							<Input id={`contact-${id}-feature-name`}/>
+						</div>
+						<div class="flex-grow">
+							<Label for={`contact-${id}-description`}> Description</Label>
+							<Input id={`contact-${id}-description`}/>
+						</div>
+						<div class="w-32">
+							<Label for={`contact-${id}-type`}>Type</Label>
+							<Select.Root name={`contact-${id}-type`}>
+								<Select.Trigger class="w-full">
+								<Select.Value />
+								</Select.Trigger>
+								<Select.Content>
+								<Select.Item value="buyer">Buyer</Select.Item>
+								<Select.Item value="user">User</Select.Item>
+								<Select.Item value="both">Both</Select.Item>
+								</Select.Content>
+							</Select.Root>
+						</div>
+						<Button
+							class="ml-auto"
 							on:click={() => {
-								contactIds = contactIds.filter((i) => i != id);
+								accountRows = accountRows.filter((i) => id != id);
 							}}>Remove</Button
 						>
 					</div>
 				{/each}
 				<Button
 					on:click={() => {
-						contactIds.push(Math.max(...contactIds, 0) + 1);
-						contactIds = contactIds;
+						contactRows.push(Math.max(...contactRows, 0) + 1);
+						contactRows = contactRows;
 					}}>New</Button
 				>
 				<Label for="numContacts" class="block"
