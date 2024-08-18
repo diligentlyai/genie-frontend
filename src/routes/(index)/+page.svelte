@@ -77,11 +77,11 @@
 		<div class="flex flex-row gap-5">
 			<div class="w-[40%]">
 				<Label for="name">Name</Label>
-				<Input id="name" name="name" />
+				<Input id="name" name="name" required />
 			</div>
 			<div class="w-[60%]">
 				<Label for="email">Email</Label>
-				<Input id="email" name="email" />
+				<Input id="email" name="email" required type="email" />
 			</div>
 		</div>
 	</section>
@@ -105,12 +105,7 @@
 		</div>
 	</section> -->
 	<section class="block space-y-2">
-		<Button 
-			name="accounts" 
-			class="block ml-auto min-w-56" 
-			type="submit" 
-			disabled={isSubmitting}
-		>
+		<Button name="accounts" class="block ml-auto min-w-56" type="submit" disabled={isSubmitting}>
 			{#if isSubmittingAccounts}
 				<span class="flex items-center justify-center gap-6">
 					Submitting

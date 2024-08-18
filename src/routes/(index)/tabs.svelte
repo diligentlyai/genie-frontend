@@ -26,11 +26,19 @@
 						<div id={`account-${id}`} class="flex items-end gap-2">
 							<div class="w-32 lg:w-64">
 								<Label for={`account-${id}-feature-name`}>Feature Name</Label>
-								<Input id={`account-${id}-feature-name`} name={`account-${id}-feature-name`} />
+								<Input
+									id={`account-${id}-feature-name`}
+									name={`account-${id}-feature-name`}
+									required={id == accountRows[0]}
+								/>
 							</div>
 							<div class="flex-grow">
 								<Label for={`account-${id}-description`}>Description</Label>
-								<Input id={`account-${id}-description`} name={`account-${id}-description`} />
+								<Input
+									id={`account-${id}-description`}
+									name={`account-${id}-description`}
+									required={id == accountRows[0]}
+								/>
 							</div>
 							<div class="w-32">
 								<Label for={`account-${id}-type`}>Type</Label>
@@ -43,7 +51,6 @@
 									]}
 								/>
 							</div>
-
 							<Button
 								class="ml-auto"
 								variant="destructive"
@@ -63,7 +70,7 @@
 				</div>
 				<div>
 					<Label for="numAccounts">How many accounts do you need?</Label>
-					<Input type="number" id="numAccounts" name="numAccounts" />
+					<Input type="number" id="numAccounts" name="numAccounts" required min="1" />
 				</div>
 				<div>
 					<Label for="accountQualificationProcess">
@@ -125,7 +132,7 @@
 				</div>
 				<div>
 					<Label for="numContacts">How many contacts do you need per account?</Label>
-					<Input type="number" id="numContacts" name="numContacts" />
+					<Input type="number" id="numContacts" name="numContacts"  min="1"/>
 				</div>
 				<div>
 					<Label for="contactQualificationProcess">
