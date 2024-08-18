@@ -23,7 +23,7 @@
 			<Card.Content class="space-y-4">
 				{#each accountRows as id}
 					<div id={`account-${id}`} class="flex items-end gap-2">
-						<div class="w-32">
+						<div class="w-64">
 							<Label for={`account-${id}-feature-name`}>Feature Name</Label>
 							<Input id={`account-${id}-feature-name`} name={`account-${id}-feature-name`} />
 						</div>
@@ -77,7 +77,7 @@
 			<Card.Content class="space-y-4">
 				{#each contactRows as id}
 					<div id={`contact-${id}`} class="flex items-end gap-2">
-						<div class="w-32">
+						<div class="w-64">
 							<Label for={`contact-${id}-role-name`}>Role Name</Label>
 							<Input id={`contact-${id}-role-name`} name={`contact-${id}-role-name`} />
 						</div>
