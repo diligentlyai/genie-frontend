@@ -31,7 +31,7 @@
 				throw new Error("Requested to include contacts but didn't specify how many");
 			lineItems.push({
 				price: contact_price_id,
-				quantity: numContacts
+				quantity: numContacts * numAccounts
 			});
 		}
 		const stripe = await loadStripe(publishableKey);
