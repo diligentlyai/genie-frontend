@@ -44,8 +44,7 @@
 			lineItems,
 			mode: 'payment',
 			successUrl: `${window.location.origin}/success?name=${params.get('name')}`,
-			cancelUrl: `${window.location.origin}/close`,
-			allowPromotionCodes: true
+			cancelUrl: `${window.location.origin}/close`
 		});
 		if (error) throw new Error(`Checkout failed with error: ${error}`);
 	}
