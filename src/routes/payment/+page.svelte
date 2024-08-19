@@ -45,7 +45,7 @@
 			mode: 'payment',
 			successUrl: `${window.location.origin}/success?name=${params.get('name')}`,
 			cancelUrl: `${window.location.origin}/close`,
-			allow_promotion_codes: true
+			allowPromotionCodes: true
 		});
 		if (error) throw new Error(`Checkout failed with error: ${error}`);
 	}
