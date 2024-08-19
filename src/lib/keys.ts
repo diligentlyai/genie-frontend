@@ -7,7 +7,7 @@ const prod_publishable_key =
 const test_account_price_id = 'price_1Pp9A6GvSx9gKzNOyOE8EU8f';
 const test_contact_price_id = 'price_1Pp99iGvSx9gKzNOtkNURBJr';
 
-const testEnv = true;
+const testEnv = false;
 
 export const publishableKey = testEnv ? test_publishable_key : prod_publishable_key;
 export const account_price_id = testEnv ? test_account_price_id : prod_account_price_id;
